@@ -207,7 +207,7 @@ The new architecture makes use of Azure's Infrastructure as a Service (IaaS) wit
 
 7. To complete the webhook go into the settings option within the GitHub repository. Then select the webhook tab and create a new webhook
 
-8. Format the payload URL in the following way: http://username:password@PublicIP:8080/job/jobname/build?token=TOKEN (where TOKEN is the token chosen in step 6.2)
+8. Format the payload URL in the following way: http://username:password@PublicIP:8080/job/jobname/build?token=TOKEN (where TOKEN is the token chosen in step 6.ii)
 
 
 <a name="CI"></a>
