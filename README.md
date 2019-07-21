@@ -3,33 +3,34 @@
 In fulfilment of the group DevOps project assignment due Monday week 11 at QA consulting.
 
 ## Index
-[The Brief](#brief)
+[0. The Brief](#brief)
    
-[Architecture](#architecture)
-   * [Before](#arch-before)
-   * [After](#arch-after)
+[1. Architecture](#architecture)
+   * [1.i. Before](#arch-before)
+   * [1.ii. After](#arch-after)
    
-[Deployment](#depl)
-   * [Prerequisites](#prereq)
-   * [Installation Guide](#install)
-   * [CI Pipeline](#CI)
-       * [Overview](#overview)
-       * [Switching Implementations](#impl)
+[2. Deployment](#depl)
+   * [2.i. Prerequisites](#prereq)
+   * [2.ii. Installation Guide](#install)
+   * [2.iii. CI Pipeline](#CI)
+       * [2.iii.a. Overview](#overview)
+       * [2.iii.b. Switching Implementations](#impl)
 
-[Project Planning](#plan)
-   * [Technologies Used](#tech)
-   * [Risk Management](#risk)
-   * [Improvements for the Future](#improve)
+[3. Project Planning](#plan)
+   * [3.i. Technologies Used](#tech)
+   * [3.ii. Risk Management](#risk)
+   * [3.iii. Improvements for the Future](#improve)
 
-[Authors](#auth)
+[4. Authors](#auth)
 
-[Acknowledgements](#ack)
+[5. Acknowledgements](#ack)
 
 <a name="brief"></a>
-# The Brief
+# 0. The Brief
 
 The Little Anchorage Financial Bank (LAFB) has an online application for signing up new members to their banking service. Currently, the application is monolithic with a tightly coupled architecture and is deployed through an on-site site server. 
-The brief is to decouple the application, and deploy it to the cloud using microservices.
+The brief is to decouple the application, and deploy it to the cloud as separate microservices.
+
 They have also asked us to provide new microservices, namely a text generator and number generator which will be used to generate and account number, and a prize generator which will be used to allocate prizes when members sign up to the bank. Each of these microservices must have two implementations that can be seemlessly switched in and out without affecting the user experience
 
 The implementations required are as follows:
@@ -45,37 +46,45 @@ The implementations required are as follows:
     * generates a random eight digit number
 
 <a name="architecture"></a>
-# Architecture
+# 1. Architecture
 
 <a name="arch-before"></a>
-### Before
+### 1.i. Before
 ![Architecture before](documentation/readme_diagrams/pre-architecture.png)
 
 The brief of this project is to modernise the architecture and deployment of an application used by LAFB to sign up new members to their banking service. There are several improvements could be made to the efficiency of the application.
 
-The first issue is that the application is monolithic so has a tightly coupled architecture, meaning the components of the application are interconnected and interdependent. Therefore, each component and its associated components must be present for code to be executed or compiled. In addition, if a component needs to be updated the whole application must be rewritten.
+The first issue is that the application is monolithic so has a tightly coupled architecture, meaning the components of the application are interconnected and interdependent. Therefore, each component and its associated components must be present for code to be executed or compiled. In addition, if a component needs to be updated the whole application must be redeployed, if not rewritten.
 
 Another issue present in the original architecture is that the application is served using an on-premise server. One disadvantage of this is the high cost associated with maintaining this type of server, for example ensuring adequate temperature control and ventilation can be very expensive. Furthermore, the level of security for an on-premise server is questionable. This is because internal sabotage is always a possibility whether this is a physical or cyber-attack. Finally, using an on-premise server limits the scalability of the application. This could be improved by adding additional servers. However, this option is not flexible as if the demand on the application decreases the cost of maintaining the additional servers is still present.    
 
 <a name="arch-after"></a>
-### After
+### 1.ii. After
 ![Architecture after](documentation/readme_diagrams/post-architecture.png)
 
-The new architecture of the project has solved the monolithic nature of the old application by splitting it into various microservices. Each microservice, represented by a block in the diagram, is deployed as its own container using Docker, and these containers are orchestrated by Docker Swarm As these microservices are loosely coupled with the rest of application, updates can be made without having to rewrite the whole application. 
+The new architecture of the project has treated the monolithic nature of the old application by splitting it into various microservices. Each microservice, represented by a block in the diagram, is deployed in its own container using Docker, and the creation of these containers are orchestrated by Docker Swarm. As these microservices are loosely coupled with the rest of application, updates can be made without having to redeploy the whole application.
 
-To resolve the issue of the application being served using an on-premise server, the application is now deployed using the cloud service Microsoft Azure which offers a much cheaper, more efficent and scalable solution for the client.
+To resolve the issue of the application being served using an on-premise server, the application is now deployed on Microsoft Azure virtual machines, which offers a much cheaper, more efficent and scalable solution for the client. More specific advantages include:
+
+   * **Scalability:** by using the cloud, LAFB can easily scale up their cloud capacity by drawing on the service’s remote servers. Likewise, if their need decreases they are just as easily scale down.
+   * **Automatic software updates:** as the servers being used are off-premise, all maintenance, such as rolling out regular software updates, are handled by a third party. This means LAFB will no longer have to dedicate time to maintaining the system themselves so can focus on other matters.
+   * **OpEx vs CapEx:** using the cloud the high capital expenditure (Cap-Ex) costs of an on-premise server are terminated. Instead, LAFB will only need to pay for what they use: their operational expenditure (Op-Ex).
+   * **Work from anywhere:** as the cloud can be accessed anywhere as long as there is an internet connection, LAFB will have more flexibility to where work is completed. 
+   
+The new architecture makes use of Azure's Infrastructure as a Service (IaaS) with its on-demand virtual machines, and Docker Swarm's Platform as a Service (PaaS) which orchestrates the deployment of containerised micor-services.
+
 
 <a name="depl"></a>
-# Deployment
+# 2. Deployment
 
 <a name="prereq"></a>
-## Prerequisites
+## 2.i. Prerequisites
 * An Azure virtual machine with Jenkins, Docker and Docker-Compose installed
 * At least one other Azure virtual machine with Docker installed
 * Access to a Dockerhub registry
 
 <a name="install"></a>
-## Installing Jenkins, Docker and Docker Compose, and setting up the swarm
+## 2.ii. Installing Jenkins, Docker and Docker Compose, and setting up the swarm
 
 ### Setting up the project:
 
@@ -130,9 +139,8 @@ To resolve the issue of the application being served using an on-premise server,
 <p align="center">
 
 	docker login
-
-*enter username and password when requested*
-
+*enter username and password when prompted*
+	
 	docker-compose push
 
 </p>
@@ -165,7 +173,7 @@ To resolve the issue of the application being served using an on-premise server,
 	
 	sudo su jenkins
 	docker login
-*enter username and password when requested*
+*enter username and password when prompted*
 
 </p>
 
@@ -199,15 +207,15 @@ To resolve the issue of the application being served using an on-premise server,
 
 7. To complete the webhook go into the settings option within the GitHub repository. Then select the webhook tab and create a new webhook
 
-8. Format the payload URL in the following way: http://username:password@PublicIP:8080/job/jobname/build?token=TOKEN (where TOKEN is the token chosen in step 6.2)
+8. Format the payload URL in the following way: http://username:password@PublicIP:8080/job/jobname/build?token=TOKEN (where TOKEN is the token chosen in step 6.ii)
 
 
 <a name="CI"></a>
-## CI pipeline
+## 2.iii. CI pipeline
 ![CI Pipeline](documentation/readme_diagrams/CI_pipeline.png)
 
 <a name="overview"></a>
-### Overview
+### 2.iii.a. Overview
 The above diagram shows the flow of the continuous integration pipeline.
 When a developer makes a change to the application in the source code and pushed to GitHub, the webhook is triggered and the Jenkins pipeline will automatically run.
 The pipeline runs the following stages:
@@ -219,7 +227,7 @@ The pipeline runs the following stages:
 *Updates changed containers in the stack without redeploying the entire application or affecting the user experience*
 
 <a name="impl"></a>
-### Switching Implementations
+### 2.iii.b. Switching Implementations
 The client asked for three different unique implementations to be included, these were for the prize generator, number generator and account generator. We have provided these and they can be seemlessly switched out for each other.
 The images used are as follows:
 #### prize generator
@@ -242,10 +250,10 @@ If the bank's developers want to switch out any of these implementations for the
 When the new docker-compose.yaml is pushed to GitHub
 
 <a name="risk"></a>
-## Project Planning
+## 3. Project Planning
 
 <a name="tech"></a>
-### Technologies Used
+### 3.i. Technologies Used
 
 * Mongo - Database
 * Node - creating the account generator which includes generating the prize
@@ -259,7 +267,7 @@ When the new docker-compose.yaml is pushed to GitHub
 * Docker Swarm
 
 <a name="risk"></a>
-### Risk Management and Tracking
+### 3.ii. Risk Management and Tracking
 As well as managing our tasks using a kanban system in Trello, we regularly tracked risks throughout the project.
 We used the three column format to lay out our risks and plot them on a risk impact graph along with the result of the output. We tracked risk throughout the project by adding them to the table and graph . Below are the risk management diagrams at the beginning and end of the project:
 
@@ -276,17 +284,17 @@ We used the three column format to lay out our risks and plot them on a risk imp
 ![post-risk diagram](documentation/risk_management/post-risk_management.png)
 
 <a name="improve"></a>
-### Improvements for the Future
+### 3.iii. Improvements for the Future
 Using a local registry would be helpful if deploying this application continuously. In cases of internet connection failures or dockerhub going down (which is not unlikely), images can still be easily accessed. 
 We suggest using a registry container to improve redundancy.
 
 <a name="auth"></a>
-## Authors
+## 4. Authors
 
 Aysha Marty and Krystal Ryan
 
 <a name="ack"></a>
-## Acknowledgements
+## 5. Acknowledgements
 
 * QA consulting and our fantastic instructors
 * The rest of our wonderful cohort on the programme
