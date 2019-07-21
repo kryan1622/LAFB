@@ -71,7 +71,7 @@ To resolve the issue of the application being served using an on-premise server,
    * **OpEx vs CapEx:** using the cloud the high capital expenditure (Cap-Ex) costs of an on-premise server are terminated. Instead, LAFB will only need to pay for what they use: their operational expenditure (Op-Ex).
    * **Work from anywhere:** as the cloud can be accessed anywhere as long as there is an internet connection, LAFB will have more flexibility to where work is completed. 
    
-The new architecture makes use of Azure's Infrastructure as a Service (IaaS) with its on-demand virtual machines, and Docker Swarm's Platform as a Service (PaaS) which orchestrates the deployment of containerised micor-services.
+The new architecture makes use of Azure's Infrastructure as a Service (IaaS) with its on-demand virtual machines, and Docker Swarm's Platform as a Service (PaaS) which orchestrates the deployment of containerised micro-services.
 
 
 <a name="depl"></a>
