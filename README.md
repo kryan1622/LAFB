@@ -61,9 +61,17 @@ Another issue present in the original architecture is that the application is se
 ### After
 ![Architecture after](documentation/readme_diagrams/post-architecture.png)
 
-The new architecture of the project has solved the monolithic nature of the old application by splitting it into various microservices. Each microservice, represented by a block in the diagram, is deployed as its own container using Docker, and these containers are orchestrated by Docker Swarm As these microservices are loosely coupled with the rest of application, updates can be made without having to rewrite the whole application. 
+The new architecture of the project has solved the monolithic nature of the old application by splitting it into various microservices. Each microservice, represented by a block in the diagram, is deployed as its own container using Docker, and these containers are orchestrated by Docker Swarm. As these microservices are loosely coupled with the rest of application, updates can be made without having to rewrite the whole application.
 
-To resolve the issue of the application being served using an on-premise server, the application is now deployed using the cloud service Microsoft Azure which offers a much cheaper, more efficent and scalable solution for the client.
+To resolve the issue of the application being served using an on-premise server, the application is now deployed on Microsoft Azure virtual machines, which offers a much cheaper, more efficent and scalable solution for the client. More specific advantages include:
+
+   * **Scalability:** by using the cloud LAFB can easily scale up their cloud capacity by drawing on the service’s remote servers. Likewise, if their need decreases, they are again easy to scale down.
+   * **Automatic software updates:** as the servers being used are off-premise all maintenance, such as rolling out regular software updates, are handled by a third party. This means LAFB will no longer have to dedicate time to maintaining the system themselves so can focus on other matters.
+   * **Capital-Expenditure:** using the cloud the high costs of an on-premise server are removed, instead LAFB will only need to pay for what they use. Therefore, making the cloud the cheaper option.
+   * **Work from anywhere:** as the cloud can be accessed anywhere as long as there is an internet connection, LAFB will have more flexibility to where work is completed. 
+   
+The new architecture makes use of Azure's Infrastructure as a Service (IaaS) with its on-demand virtual machines, and Docker Swarm's Platform as a Service (PaaS) which orchestrates the deployment of containerised micor-services.
+
 
 <a name="depl"></a>
 # Deployment
