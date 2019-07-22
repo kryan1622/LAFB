@@ -68,10 +68,10 @@ services:
       - server
 
     account:
-      image: keepkarm/account:v2
+      image: keepkarm/account:v1
       build:
         args:
-            FILE_VERSION: 2
+            FILE_VERSION: 1
         context: ./account
         dockerfile: Dockerfile
       ports:
